@@ -3,7 +3,9 @@
 import sys
 
 def rateAndQD(taxableIncome):
-    if taxableIncome <= 1500:
+    if taxableIncome <= 0: 
+        rate, QD = 0, 0
+    elif taxableIncome > 0 and taxableIncome <= 1500:
         rate, QD = 0.03, 0
     elif taxableIncome > 1500 and taxableIncome <= 4500:
         rate, QD = 0.1, 105
@@ -19,14 +21,17 @@ def rateAndQD(taxableIncome):
         rate, QD = 0.45, 13505
     return rate, QD
 if __name__ == "__main__":
-    try:
-        income = int(sys.argv[1])
+    for arg in sys.argv[1:]:
+        try:
+            idNum = int(arg.split(":")[0])
+            income = int(arg.split(":")[1]) 
     except:
         print("Parameter Error")
     
-    taxableIncome = income - 0 - 3500
+    taxableIncome = income*0.835 - 3500
     rate, QD = rateAndQD(taxableIncome)
     taxPayable = taxableIncome * rate - QD 
-    print(format(taxPayable, ".2f"))
+    salaryGet = income*0.835 - taxPayable  
+    print("%d:%.2f"%(idNum, salaryGet))
     
 
